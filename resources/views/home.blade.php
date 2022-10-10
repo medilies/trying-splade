@@ -7,7 +7,10 @@
         <x-application-logo class="block h-12 w-auto" />
 
         <div class="mt-8 text-2xl">
-            Welcome to your Splade application!
+
+            <x-splade-table :for="$wilayas" />
+
         </div>
+
     </x-panel>
 </x-layout>
