@@ -3,19 +3,34 @@
 use ElaborateCode\AlgerianProvinces\Models\Wilaya;
 use Illuminate\Support\Facades\Route;
 use ProtoneMedia\Splade\SpladeTable;
+use Spatie\QueryBuilder\QueryBuilder;
 
+SpladeTable::defaultPerPageOptions([10, 100]);
+// SpladeTable::hidePaginationWhenResourceContainsOnePage();
 
 Route::get('/', function () {
 
-    $wilayas = Wilaya::paginate(10);
+    $perPage = request()->query('perPage', 10);
+
+    $default_sort = 'fr_name';
+
+    $wilayas = QueryBuilder::for(Wilaya::class)
+        ->defaultSort($default_sort)
+        ->allowedSorts(['id', 'fr_name', 'ar_name'])
+        ->allowedFilters(['id', 'fr_name', 'ar_name'])
+        ->paginate($perPage)
+        ->withQueryString();
 
     return view('home')
         ->with(
             'wilayas',
             SpladeTable::for($wilayas)
-                ->column('id')
-                ->column('fr_name')
-                ->column('ar_name')
+                ->perPageOptions([5, 10, 20, 100])
+                ->column('id', 'ID', false, sortable: true, searchable: true)
+                ->column('fr_name', 'Larin name', false, sortable: true, searchable: true)
+                ->column('ar_name', 'Arabic name', true, sortable: true, searchable: true)
+                ->defaultSort($default_sort)
+            // ->searchInput('fr_name', 'Wilaya latin name', 'Oran')
         );
 })
     ->middleware(['splade'])
