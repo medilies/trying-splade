@@ -8,11 +8,16 @@ import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
 const el = document.getElementById("app");
 
 createApp({
-    render: renderSpladeApp({ el })
+    render: renderSpladeApp({ el }),
 })
     .use(SpladePlugin, {
-        "max_keep_alive": 10,
-        "transform_anchors": false,
-        "progress_bar": true
+        max_keep_alive: 10,
+        transform_anchors: false,
+        progress_bar: {
+            delay: 100,
+            color: "#4B5563",
+            css: true,
+            spinner: false,
+        },
     })
     .mount(el);
