@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use ElaborateCode\AlgerianProvinces\Models\Wilaya;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use ProtoneMedia\Splade\Facades\SEO;
+use ProtoneMedia\Splade\Facades\Splade;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -12,6 +15,20 @@ class WilayaIndexController extends Controller
 {
     public function __invoke(): View|Factory
     {
+        Toast::title('Yay!')
+            ->message('Neet frontend tricks')
+            ->Info()
+            ->rightBottom()
+            ->backdrop()
+            ->autoDismiss(7);
+
+        // Splade::share('adminLastSeenAt', now()->toDateTimeString());
+
+        SEO::title('Splade')
+            ->description('Become the Splade expert!')
+            ->keywords('laravel, splade, course');
+        // ...
+
         SpladeTable::defaultPerPageOptions([10, 100]);
         // SpladeTable::hidePaginationWhenResourceContainsOnePage();
 

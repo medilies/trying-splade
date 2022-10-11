@@ -11,5 +11,9 @@
 
         </div>
 
+        {{-- <x-splade-data default="{ name: 'Laravel Splade' }">
+            <input v-model="data.name" />
+        </x-splade-data> --}}
+
     </x-panel>
 </x-layout>
