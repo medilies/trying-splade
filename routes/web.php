@@ -10,7 +10,6 @@ SpladeTable::defaultPerPageOptions([10, 100]);
 // SpladeTable::hidePaginationWhenResourceContainsOnePage();
 
 Route::get('/', function () {
-
     $perPage = request()->query('perPage', 10);
 
     $default_sort = 'fr_name';
@@ -38,7 +37,6 @@ Route::get('/', function () {
     ->name('home');
 
 Route::get('class-types', function () {
-
     $perPage = request()->query('perPage', 10);
 
     $class_types = QueryBuilder::for(ClassType::class)
