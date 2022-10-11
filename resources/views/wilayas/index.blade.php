@@ -7,7 +7,7 @@
 
         <div class="mt-8 text-2xl">
 
-            <x-splade-table :for="$wilayas" />
+            <x-splade-table :for="$wilayas" striped />
 
         </div>
 
