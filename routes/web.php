@@ -9,7 +9,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 SpladeTable::defaultPerPageOptions([10, 100]);
 // SpladeTable::hidePaginationWhenResourceContainsOnePage();
 
-Route::get('/', function () {
+Route::get('/', fn () => view('home'))
+    ->middleware(['splade'])
+    ->name('home');
+
+Route::get('/wilayas', function () {
     $perPage = request()->query('perPage', 10);
 
     $default_sort = 'fr_name';
@@ -21,7 +25,7 @@ Route::get('/', function () {
         ->paginate($perPage)
         ->withQueryString();
 
-    return view('home')
+    return view('wilayas')
         ->with(
             'wilayas',
             SpladeTable::for($wilayas)
@@ -34,7 +38,7 @@ Route::get('/', function () {
         );
 })
     ->middleware(['splade'])
-    ->name('home');
+    ->name('wilayas.index');
 
 Route::get('class-types', function () {
     $perPage = request()->query('perPage', 10);
