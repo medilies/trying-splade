@@ -1,5 +1,6 @@
 <?php
 
+use ElaborateCode\AlgerianEducationSystem\Models\ClassType;
 use ElaborateCode\AlgerianProvinces\Models\Wilaya;
 use Illuminate\Support\Facades\Route;
 use ProtoneMedia\Splade\SpladeTable;
@@ -36,6 +37,40 @@ Route::get('/', function () {
     ->middleware(['splade'])
     ->name('home');
 
+Route::get('class-types', function () {
+
+    $perPage = request()->query('perPage', 10);
+
+    $class_types = QueryBuilder::for(ClassType::class)
+        ->allowedSorts(['level', 'name', 'alias'])
+        ->allowedFilters(['level', 'name', 'alias', 'cycle_id'])
+        ->paginate($perPage)
+        ->withQueryString();
+
+    return view('class-types')
+        ->with(
+            'class_types',
+            SpladeTable::for($class_types)
+                ->column('level', 'Level', false, sortable: true, searchable: true)
+                ->column('cycle_id', 'Cycle', false, sortable: true)
+                ->column('name', 'Name', true, sortable: true, searchable: true)
+                ->column('alias', 'Alias', false, sortable: true, searchable: true)
+                ->column('actions', '')
+                ->selectFilter(
+                    'cycle_id',
+                    [
+                        'pre-scolaire' => 'Prescolaire',
+                        'primaire' => 'Primaire',
+                        'moyen' => 'Moyen',
+                        'secondaire' => 'Secondaire',
+                    ],
+                    'Cycle',
+                    noFilterOptionLabel: 'All cycles'
+                )
+        );
+})
+    ->middleware(['splade'])
+    ->name('class_types.index');
 
 Route::middleware(['splade'])
     ->group(function () {
